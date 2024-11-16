@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  review-service-postgres-db:
+    image: postgres:14.0
+    container_name: review_service_db_postgres_container
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=review-service-db
+      - POSTGRES_USER=review_user
+      - POSTGRES_PASSWORD=review_password
+
+  review-service-server:
+    build: .
+    container_name: review_service_container
+    ports:
+      - "9292:9292"
+      - "9291:9291"
+    depends_on:
+      - review-service-postgres-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://review-service-postgres-db:5432/review-service-db
+      - SPRING_DATASOURCE_USERNAME=review_user
+      - SPRING_DATASOURCE_PASSWORD=review_password
