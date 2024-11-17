@@ -15,6 +15,7 @@ import static ru.yandex.masterskaya.constants.Constants.DATE_TIME_FORMAT;
 @Getter
 @Setter
 public class ReviewDto {
+    private Long id;
     private String username;
     private String title;
     private String content;
