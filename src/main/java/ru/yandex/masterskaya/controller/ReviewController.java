@@ -22,6 +22,7 @@ import ru.yandex.masterskaya.model.dto.CreateReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 import ru.yandex.masterskaya.model.dto.UpdateReviewDto;
+import ru.yandex.masterskaya.service.LikeService;
 import ru.yandex.masterskaya.service.ReviewService;
 
 import static ru.yandex.masterskaya.constants.Constants.X_REVIEW_USER_ID;
@@ -33,6 +34,7 @@ import static ru.yandex.masterskaya.constants.Constants.X_REVIEW_USER_ID;
 public class ReviewController {
 
     private final ReviewService service;
+    private final LikeService likeService;
 
     @PostMapping
     public ReviewFullDto create(@RequestBody @Valid CreateReviewDto dto) {
@@ -65,4 +67,29 @@ public class ReviewController {
                        @PathVariable(value = "id") @Min(1) Long id) {
         service.delete(authorId, id);
     }
+
+    @PostMapping("/{reviewId}/like")
+    public ReviewFullDto addLike(@PathVariable @Min(1) Long reviewId,
+                                 @RequestHeader(X_REVIEW_USER_ID) @Min(1) Long userId) {
+        return likeService.addLike(reviewId, userId);
+    }
+
+    @DeleteMapping("/{reviewId}/like")
+    public ReviewFullDto removeLike(@PathVariable @Min(1) Long reviewId,
+                                    @RequestHeader(X_REVIEW_USER_ID) @Min(1) Long userId) {
+        return likeService.removeLike(reviewId, userId);
+    }
+
+    @PostMapping("/{reviewId}/dislike")
+    public ReviewFullDto addDislike(@PathVariable @Min(1) Long reviewId,
+                                    @RequestHeader(X_REVIEW_USER_ID) @Min(1) Long userId) {
+        return likeService.addDislike(reviewId, userId);
+    }
+
+    @DeleteMapping("/{reviewId}/dislike")
+    public ReviewFullDto removeDislike(@PathVariable @Min(1) Long reviewId,
+                                       @RequestHeader(X_REVIEW_USER_ID) @Min(1) Long userId) {
+        return likeService.removeDislike(reviewId, userId);
+    }
+
 }

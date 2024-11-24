@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   review-service-postgres-db:
-    image: postgres:14.0
+    image: postgres:14-alpine
     container_name: review_service_db_postgres_container
     ports:
       - "6541:5432"
@@ -22,3 +22,4 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://review-service-postgres-db:5432/review-service-db
       - SPRING_DATASOURCE_USERNAME=review_user
       - SPRING_DATASOURCE_PASSWORD=review_password
+      - SPRING_DRIVER_CLASS_NAME=org.postgresql.Driver
