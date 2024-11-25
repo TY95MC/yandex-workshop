@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.masterskaya.exception.ConflictException;
 import ru.yandex.masterskaya.model.dto.CreateReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
-import ru.yandex.masterskaya.model.mapper.ReviewMapper;
-import ru.yandex.masterskaya.repository.LikeRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -12,6 +12,7 @@ import ru.yandex.masterskaya.model.mapper.ReviewMapper;
 import ru.yandex.masterskaya.repository.LikeRepository;
 import ru.yandex.masterskaya.repository.ReviewRepository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +29,7 @@ public class LikeServiceImpl implements LikeService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Отзыв не найден"));
 
-        if (review.getAuthorId() != userId) {
+        if (!Objects.equals(review.getAuthorId(),userId)) {
             Optional<Like> existingLike = likeRepository.findByReviewIdAndUserId(reviewId, userId);
             if (existingLike.isEmpty()) {
                 Like like = new Like();
