@@ -69,8 +69,6 @@ public class LikeServiceImpl implements LikeService {
             if (existingLike.isPresent()) {
                 if (existingLike.get().isLike()) {
                     likeRepository.deleteByReviewIdAndUserId(reviewId, userId);
-                } else {
-                    //Dislike already exists, do nothing
                 }
             } else {
                 Like dislike = new Like();
