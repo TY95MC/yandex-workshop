@@ -1,15 +1,23 @@
 package ru.yandex.masterskaya.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,7 +29,8 @@ import static ru.yandex.masterskaya.constants.Constants.DATE_TIME_FORMAT;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Review {
+@Builder(toBuilder = true)
+public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
@@ -49,11 +58,8 @@ public class Review {
     @Column(name = "event_id")
     private Long eventId;
 
-    @OneToMany(mappedBy = "review",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Like> likes = new HashSet<>();
-
-
-
 
 
     @Override

@@ -1,18 +1,14 @@
 package ru.yandex.masterskaya.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.test.web.servlet.MockMvc;
-
 import ru.yandex.masterskaya.model.dto.CreateReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
@@ -20,9 +16,7 @@ import ru.yandex.masterskaya.model.dto.UpdateReviewDto;
 import ru.yandex.masterskaya.service.LikeService;
 import ru.yandex.masterskaya.service.ReviewService;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,7 +28,7 @@ import static ru.yandex.masterskaya.constants.Constants.X_REVIEW_USER_ID;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class ReviewControllerWithLikesTest {
 
-    private final MockMvc mockMvc;
+    private final MockMvc   mockMvc;
     private final ObjectMapper objectMapper;
 
     @MockBean
