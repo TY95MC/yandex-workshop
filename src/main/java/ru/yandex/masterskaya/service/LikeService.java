@@ -1,5 +1,6 @@
 package ru.yandex.masterskaya.service;
 
+import ru.yandex.masterskaya.model.Review;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 
 public interface LikeService {
@@ -8,7 +9,7 @@ public interface LikeService {
 
     ReviewFullDto removeLike(Long reviewId, Long userId);
 
-    ReviewFullDto getReviewWithLikesDislikes(Long reviewId);
+    ReviewFullDto getReviewWithLikesAndDislikes(Long reviewId);
 
     ReviewFullDto addDislike(Long reviewId, Long userId);
 

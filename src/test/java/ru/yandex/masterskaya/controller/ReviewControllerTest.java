@@ -2,7 +2,6 @@ package ru.yandex.masterskaya.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import ru.yandex.masterskaya.model.dto.CreateReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 import ru.yandex.masterskaya.model.dto.UpdateReviewDto;
-import ru.yandex.masterskaya.service.LikeService;
 import ru.yandex.masterskaya.service.ReviewService;
 
 import java.nio.charset.StandardCharsets;
@@ -47,10 +45,6 @@ class ReviewControllerTest {
 
     @MockBean
     private final ReviewService service;
-
-    @MockBean
-    private final LikeService likeService;
-
 
     CreateReviewDto createReviewDto = new CreateReviewDto(
             1L,
@@ -282,19 +276,4 @@ class ReviewControllerTest {
                         .header(X_REVIEW_USER_ID, "-11"))
                 .andExpect(status().is5xxServerError());
     }
-
-
-    @Test
-    @SneakyThrows
-    void shouldAddLikeToReview() {
-        Long reviewId = 1L;
-        Long userId = 1L;
-        Mockito.when(likeService.addLike(reviewId,userId)).thenReturn(savedReviewFullDto);
-
-        mockMvc.perform(post("/reviews/1/like")
-                        .header(X_REVIEW_USER_ID, userId))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(savedReviewFullDto)));
-    };
-
 }

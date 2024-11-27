@@ -43,7 +43,7 @@ public class Like implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(name = "is_like")
     private boolean isLike;
 
     @Column(name = "created_datetime", updatable = false)

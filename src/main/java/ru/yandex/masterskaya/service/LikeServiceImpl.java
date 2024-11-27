@@ -12,7 +12,9 @@ import ru.yandex.masterskaya.model.mapper.ReviewMapper;
 import ru.yandex.masterskaya.repository.LikeRepository;
 import ru.yandex.masterskaya.repository.ReviewRepository;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,19 +30,18 @@ public class LikeServiceImpl implements LikeService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Отзыв не найден"));
 
-        if (review.getAuthorId() != userId) {
+        if (!Objects.equals(review.getAuthorId(), userId)) {
             Optional<Like> existingLike = likeRepository.findByReviewIdAndUserId(reviewId, userId);
             if (existingLike.isEmpty()) {
                 Like like = new Like();
                 like.setReview(review);
                 like.setUserId(userId);
                 like.setLike(true);
-                // like.setCreatedDateTime(LocalDateTime.now());
                 likeRepository.save(like);
             } else {
-                throw new ConflictException("Пользователь уже поставил лайк данному отзыву");
+                throw new ConflictException("Этот пользователь уже ставил лайк :) данному отзыву");
             }
-            return getReviewWithLikesDislikes(review.getId());
+            return getReviewWithLikesAndDislikes(review.getId());
 
         } else {
             throw new ConflictException("Автор отзыва не может ставить себе лайк");
@@ -55,7 +56,7 @@ public class LikeServiceImpl implements LikeService {
             likeRepository.deleteByReviewIdAndUserId(reviewId, userId);
         }
 
-        return getReviewWithLikesDislikes(reviewId);
+        return getReviewWithLikesAndDislikes(reviewId);
     }
 
     @Transactional
@@ -64,31 +65,27 @@ public class LikeServiceImpl implements LikeService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Отзыв не найден"));
 
-        if (review.getAuthorId() != userId) {
+        if (!Objects.equals(review.getAuthorId(), userId)) {
             Optional<Like> existingLike = likeRepository.findByReviewIdAndUserId(reviewId, userId);
             if (existingLike.isPresent()) {
                 if (existingLike.get().isLike()) {
                     likeRepository.deleteByReviewIdAndUserId(reviewId, userId);
                 } else {
-                    //Dislike already exists, do nothing
+                    throw new ConflictException("Этот пользователь уже ставил дизлайк :( данному отзыву");
                 }
             } else {
                 Like dislike = new Like();
                 dislike.setReview(review);
                 dislike.setUserId(userId);
                 dislike.setLike(false);
-                // dislike.setCreatedDateTime(LocalDateTime.now());
                 likeRepository.save(dislike);
             }
         } else {
             throw new ConflictException("Автор отзыва не может ставить себе дизлайк");
         }
 
-        return getReviewWithLikesDislikes(review.getId());
+        return getReviewWithLikesAndDislikes(review.getId());
     }
-
-//    Если пользователь уже поставил лайк, а теперь ставит дизлайк, то лайк просто удаляется, а дизлайк не сохраняется,
-//    аналогично наоборот.
 
     @Transactional
     @Override
@@ -97,17 +94,23 @@ public class LikeServiceImpl implements LikeService {
         if (existingLike.isPresent() && !existingLike.get().isLike()) {
             likeRepository.deleteByReviewIdAndUserId(reviewId, userId);
         }
-        return getReviewWithLikesDislikes(reviewId);
+        return getReviewWithLikesAndDislikes(reviewId);
     }
 
     @Transactional
     @Override
-    public ReviewFullDto getReviewWithLikesDislikes(Long reviewId) {
+    public ReviewFullDto getReviewWithLikesAndDislikes(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Отзыв не найден"));
+        Set<Like> likes = likeRepository.findByReviewId(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("Лайк не найден"));
+        Long likesCount = likes.stream().filter(Like::isLike).count();
+        Long dislikesCount = likes.stream().filter(like -> !like.isLike()).count();
+
         ReviewFullDto reviewFullDto = reviewMapper.toReviewFullDto(review);
-        reviewFullDto.setNumberOfLikes(likeRepository.countByReviewIdAndIsLikeTrue(review.getId()));
-        reviewFullDto.setNumberOfDisLikes(likeRepository.countByReviewIdAndIsLikeFalse(review.getId()));
+        reviewFullDto.setNumberOfLikes(likesCount);
+        reviewFullDto.setNumberOfDisLikes(dislikesCount);
+
         return reviewFullDto;
     }
 }
