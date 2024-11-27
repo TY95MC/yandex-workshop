@@ -4,7 +4,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 import ru.yandex.masterskaya.service.LikeService;
 
@@ -40,9 +45,6 @@ public class LikeController {
                                        @RequestHeader(X_REVIEW_USER_ID) @Min(1) Long userId) {
         return likeService.removeDislike(reviewId, userId);
     }
-
-
-
 
 
 }
