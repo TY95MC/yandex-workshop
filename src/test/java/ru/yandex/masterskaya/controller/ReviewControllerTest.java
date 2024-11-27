@@ -46,7 +46,6 @@ class ReviewControllerTest {
     @MockBean
     private final ReviewService service;
 
-
     CreateReviewDto createReviewDto = new CreateReviewDto(
             1L,
             "username",
@@ -88,7 +87,8 @@ class ReviewControllerTest {
             LocalDateTime.now(),
             null,
             5,
-            1L
+            1L,
+            null,null
     );
 
     ReviewFullDto updatedReviewFullDto = new ReviewFullDto(
@@ -100,7 +100,8 @@ class ReviewControllerTest {
             LocalDateTime.now(),
             null,
             5,
-            1L
+            1L,
+            null,null
     );
 
     ReviewDto reviewDto = new ReviewDto(

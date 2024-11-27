@@ -26,4 +26,6 @@ public class ReviewFullDto {
     private LocalDateTime updatedDateTime;
     private Integer mark;
     private Long eventId;
+    private Long numberOfLikes;
+    private Long numberOfDisLikes;
 }
