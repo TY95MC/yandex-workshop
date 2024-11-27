@@ -28,4 +28,22 @@ public class ReviewFullDto {
     private Long eventId;
     private Long numberOfLikes;
     private Long numberOfDisLikes;
+
+
+    @Override
+    public String toString() {
+        return "ReviewFullDto{" +
+                "id=" + id +
+                ", authorId=" + authorId +
+                ", username='" + username + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedDateTime=" + updatedDateTime +
+                ", mark=" + mark +
+                ", eventId=" + eventId +
+                ", numberOfLikes=" + numberOfLikes +
+                ", numberOfDisLikes=" + numberOfDisLikes +
+                '}';
+    }
 }

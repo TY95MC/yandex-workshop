@@ -12,10 +12,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static ru.yandex.masterskaya.constants.Constants.DATE_TIME_FORMAT;
@@ -26,7 +28,8 @@ import static ru.yandex.masterskaya.constants.Constants.DATE_TIME_FORMAT;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Like {
+@Builder(toBuilder = true)
+public class Like implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
