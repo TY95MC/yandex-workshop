@@ -41,19 +41,19 @@ jobs:
 
       - name: Run Postman tests for Review Service
         run: |
-          newman run postman/sprint 1 add-review-service.postman_collection.json \
+          newman run postman/sprint_1_add-review-service.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-review-service.json
 
       - name: Run Postman tests for Feature Likes
         run: |
-          newman run postman/sprint 1 -add-review-service-and-likes-dislikes.postman_collection.json \
+          newman run postman/sprint_1_add-review-service-and-likes-dislikes.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-feature-likes.json
 
       - name: Run Postman tests for Feature Statistics
         run: |
-          newman run postman/workshop sprint 1 -add-statistic.postman_collection.json \
+          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-feature-statistics.json
 
