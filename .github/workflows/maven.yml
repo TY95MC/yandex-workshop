@@ -28,11 +28,6 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-      - name: Check application
-        run: |
-          cp -rf ./src/test/checkstyle.xml ./checkstyle.xml
-          cp -rf ./src/test/suppressions.xml ./suppressions.xml
-
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml
 
