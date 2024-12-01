@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.masterskaya.model.Review;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long>, CustomReviewRepository
-{
+public interface ReviewRepository extends JpaRepository<Review, Long>, CustomReviewRepository {
     @Query("SELECT r " +
             "FROM Review r " +
             "WHERE r.eventId = ?1")
