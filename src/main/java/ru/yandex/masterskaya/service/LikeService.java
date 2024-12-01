@@ -1,6 +1,5 @@
 package ru.yandex.masterskaya.service;
 
-import ru.yandex.masterskaya.model.Review;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 
 public interface LikeService {
