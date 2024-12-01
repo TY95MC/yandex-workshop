@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,6 +12,7 @@ import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 import ru.yandex.masterskaya.service.LikeService;
 
 import java.time.LocalDateTime;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -42,7 +42,7 @@ class LikeControllerTest {
             null,
             5,
             1L,
-            1L,0L
+            1L, 0L
     );
 
     ReviewFullDto savedReviewFullDto2 = new ReviewFullDto(
@@ -55,9 +55,8 @@ class LikeControllerTest {
             null,
             5,
             1L,
-            1L,1L
+            1L, 1L
     );
-
 
 
     @Test
@@ -66,13 +65,13 @@ class LikeControllerTest {
         Long reviewId = 1L;
         Long userId = 2L;
 
-        when(likeService.addLike(eq(reviewId),eq(userId))).thenReturn(savedReviewFullDto);
+        when(likeService.addLike(eq(reviewId), eq(userId))).thenReturn(savedReviewFullDto);
 
         mockMvc.perform(post("/reviews/{id}/like", reviewId)
                         .header(X_REVIEW_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(savedReviewFullDto)));
-    };
+    }
 
 
     @Test
@@ -80,37 +79,37 @@ class LikeControllerTest {
     void shouldRemoveLikeFromReview() {
         Long reviewId = 1L;
         Long userId = 2L;
-        when(likeService.removeLike(reviewId,userId)).thenReturn(savedReviewFullDto);
+        when(likeService.removeLike(reviewId, userId)).thenReturn(savedReviewFullDto);
 
         mockMvc.perform(delete("/reviews/1/like")
                         .header(X_REVIEW_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(savedReviewFullDto)));
-    };
+    }
 
     @Test
     @SneakyThrows
     void shouldAddDisLikeToReview() {
         Long reviewId = 1L;
         Long userId = 2L;
-        when(likeService.addDislike(reviewId,userId)).thenReturn(savedReviewFullDto2);
+        when(likeService.addDislike(reviewId, userId)).thenReturn(savedReviewFullDto2);
 
         mockMvc.perform(post("/reviews/1/dislike")
                         .header(X_REVIEW_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(savedReviewFullDto2)));
-    };
+    }
 
     @Test
     @SneakyThrows
     void shouldRemoveDisLikeFromReview() {
         Long reviewId = 1L;
         Long userId = 2L;
-        when(likeService.removeDislike(reviewId,userId)).thenReturn(savedReviewFullDto2);
+        when(likeService.removeDislike(reviewId, userId)).thenReturn(savedReviewFullDto2);
 
         mockMvc.perform(delete("/reviews/1/dislike")
                         .header(X_REVIEW_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(savedReviewFullDto2)));
-    };
+    }
 }
