@@ -30,8 +30,8 @@ jobs:
 
       - name: Check application
         run: |
-          cp -rf ./tests/checkstyle.xml ./checkstyle.xml
-          cp -rf ./tests/suppressions.xml ./suppressions.xml
+          cp -rf ./checkstyle.xml
+          cp -rf ./suppressions.xml
 
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml
