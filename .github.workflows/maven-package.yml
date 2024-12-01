@@ -1,6 +1,12 @@
 name: Maven Package
 
-on: push
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - 'develop'
 
 jobs:
   build:
@@ -29,8 +35,6 @@ jobs:
 
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml
-        --reporters cli,json \
-        --reporter-json-export test-coverage.json
 
       - name: Install Node.js
         uses: actions/setup-node@v3
