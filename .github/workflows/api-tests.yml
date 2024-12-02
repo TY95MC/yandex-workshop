@@ -17,7 +17,9 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: |
+        actions/checkout@v4
+         hoverkraft-tech/compose-action@v2.0.1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -29,7 +31,6 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build and test with Maven
-        uses: hoverkraft-tech/compose-action@v2.0.1
         run: |
           mvn -B package --file pom.xml
           docker compose build
