@@ -29,12 +29,12 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build and test with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Start docker-compose
-          - docker-compose up --build
-          - docker-compose ps
-          - docker-compose logs
+        run: |
+          mvn -B package --file pom.xml
+          docker compose build
+          docker compose up --detach
+          docker compose ps
+          docker compose logs
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -71,7 +71,7 @@ jobs:
           echo "Feature Statistics Results:"
           cat results-feature-statistics.json
 
-    - name: Stop docker-compose
-      run:
-      - docker-compose ps
-      - docker-compose down
+      - name: Stop docker-compose
+        run: |
+          docker compose ps
+          docker compose down
