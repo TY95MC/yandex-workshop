@@ -71,7 +71,7 @@ jobs:
           echo "Feature Statistics Results:"
           cat results-feature-statistics.json
 
-    - name: Stop docker-compose
-      run:
-      - docker-compose ps
-      - docker-compose down
+      - name: Stop docker-compose
+        run:
+        - docker-compose ps
+        - docker-compose down
