@@ -31,7 +31,7 @@ jobs:
       - name: Build and test with Maven
         run: |
           mvn -B package --file pom.xml
-          cat ./docker-compose.yml
+          cat ./Docker-compose.yml
           docker compose up --build
           docker compose ps
           docker compose logs
