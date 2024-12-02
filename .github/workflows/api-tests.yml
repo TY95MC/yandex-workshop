@@ -29,14 +29,13 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build and test with Maven
+        uses: hoverkraft-tech/compose-action@v2.0.1
         run: |
           mvn -B package --file pom.xml
           docker compose build
           docker compose up
           docker compose ps
           docker compose logs
-        with:
-          compose-file: "./docker-compose.yml"
 
       - name: Install Node.js
         uses: actions/setup-node@v3
