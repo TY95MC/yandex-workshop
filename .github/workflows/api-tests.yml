@@ -31,11 +31,10 @@ jobs:
       - name: Build and test with Maven
         run: |
           mvn -B package --file pom.xml
-          cat ./Dockerfile
-          cat ./Docker-compose.yml
-          docker compose -f ./Docker-compose.yml up --build
-          docker compose ps
-          docker compose logs
+          docker-compose ./Docker-compose.yml build
+          docker-compose up --detach
+          docker-compose ps
+          docker-compose logs
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -74,5 +73,5 @@ jobs:
 
       - name: Stop docker-compose
         run: |
-          docker compose ps
-          docker compose down
+          docker-compose ps
+          docker-compose down
