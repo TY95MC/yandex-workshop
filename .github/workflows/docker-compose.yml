@@ -1,11 +1,11 @@
-name: Maven Package
+name: Docker-compose Build And Test
 
 on:
   push:
-    branches: 
+    branches:
      - '*'
   pull_request:
-    branches: 
+    branches:
      - 'develop'
 
 jobs:
@@ -30,6 +30,11 @@ jobs:
 
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml
+
+      - name: Start docker-compose
+          - docker-compose up --build
+          - docker-compose ps
+          - docker-compose logs
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -65,3 +70,8 @@ jobs:
           cat results-feature-likes.json
           echo "Feature Statistics Results:"
           cat results-feature-statistics.json
+
+    - name: Stop docker-compose
+      run:
+      - docker-compose ps
+      - docker-compose down
