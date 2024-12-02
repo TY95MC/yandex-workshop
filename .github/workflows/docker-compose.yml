@@ -1,11 +1,11 @@
-name: Maven Package
+name: Docker-compose Build And Test
 
 on:
   push:
-    branches: 
+    branches:
      - '*'
   pull_request:
-    branches: 
+    branches:
      - 'develop'
 
 jobs:
@@ -31,6 +31,11 @@ jobs:
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml
 
+      - name: Start docker-compose
+          - docker-compose up --build
+          - docker-compose ps
+          - docker-compose logs
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -41,19 +46,19 @@ jobs:
 
       - name: Run Postman tests for Review Service
         run: |
-          newman run postman/sprint 1 add-review-service.postman_collection.json \
+          newman run postman/sprint_1_add-review-service.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-review-service.json
 
       - name: Run Postman tests for Feature Likes
         run: |
-          newman run postman/sprint 1 -add-review-service-and-likes-dislikes.postman_collection.json \
+          newman run postman/sprint_1_add-review-service-and-likes-dislikes.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-feature-likes.json
 
       - name: Run Postman tests for Feature Statistics
         run: |
-          newman run postman/workshop sprint 1 -add-statistic.postman_collection.json \
+          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
           --reporters cli,json \
           --reporter-json-export results-feature-statistics.json
 
@@ -65,3 +70,8 @@ jobs:
           cat results-feature-likes.json
           echo "Feature Statistics Results:"
           cat results-feature-statistics.json
+
+    - name: Stop docker-compose
+      run:
+      - docker-compose ps
+      - docker-compose down
