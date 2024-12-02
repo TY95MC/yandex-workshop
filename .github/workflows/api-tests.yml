@@ -33,7 +33,7 @@ jobs:
           mvn -B package --file pom.xml
           cat ./Dockerfile
           cat ./Docker-compose.yml
-          docker compose -f docker-compose.yml up --build
+          docker compose -f ./docker-compose.yml up --build
           docker compose ps
           docker compose logs
 
