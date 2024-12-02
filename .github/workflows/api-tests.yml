@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: |
         actions/checkout@v4
-         hoverkraft-tech/compose-action@v2.0.1
+        hoverkraft-tech/compose-action@v2.0.1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
