@@ -31,8 +31,9 @@ jobs:
       - name: Build and test with Maven
         run: |
           mvn -B package --file pom.xml
-          docker compose build
-          docker compose up
+          docker compose logs
+          docker compose up --build
+          docker compose logs
           docker compose ps
           docker compose logs
 
