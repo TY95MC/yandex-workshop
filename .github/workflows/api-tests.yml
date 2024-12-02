@@ -29,6 +29,7 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build and test with Maven
+        uses: docker/setup-buildx-action@v1
         run: |
           mvn -B package --file pom.xml
           docker compose build
