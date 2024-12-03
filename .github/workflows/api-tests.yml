@@ -33,6 +33,8 @@ jobs:
           mvn -B package --file pom.xml
           docker compose build
           docker compose up --detach
+          chmod a+x ./tests/.github/workflows/wait-for-it.sh
+          ./tests/.github/workflows/wait-for-it.sh -t 60 localhost:9292
           docker compose ps
           docker compose logs
 
