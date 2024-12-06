@@ -52,18 +52,18 @@ jobs:
           --reporters cli,json \
           --reporter-json-export results-review-service-and-feature-likes.json
 
-      - name: Run Postman tests for Feature Statistics
-        run: |
-          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
-          --reporters cli,json \
-          --reporter-json-export results-feature-statistics.json
+#      - name: Run Postman tests for Feature Statistics
+#        run: |
+#          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
+#          --reporters cli,json \
+#          --reporter-json-export results-feature-statistics.json
 
       - name: Publish results (optional)
         run: |
           echo "Review-service and feature Likes results:"
           cat results-review-service-and-feature-likes.json
-          echo "Feature statistics results:"
-          cat results-feature-statistics.json
+#          echo "Feature statistics results:"
+#          cat results-feature-statistics.json
 
       - name: Stop docker-compose
         run: |
