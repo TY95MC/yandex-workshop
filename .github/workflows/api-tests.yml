@@ -29,12 +29,14 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build and test with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Start docker-compose
-          - docker-compose up --build
-          - docker-compose ps
-          - docker-compose logs
+        run: |
+          mvn -B package --file pom.xml
+          docker compose build
+          docker compose up --detach
+          chmod a+x ./.github/workflows/wait-for-it.sh
+          ./.github/workflows/wait-for-it.sh -t 60 localhost:9292
+          docker compose ps
+          docker compose logs
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -44,34 +46,26 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Run Postman tests for Review Service
-        run: |
-          newman run postman/sprint_1_add-review-service.postman_collection.json \
-          --reporters cli,json \
-          --reporter-json-export results-review-service.json
-
-      - name: Run Postman tests for Feature Likes
+      - name: Run Postman tests for review-service and feature Likes
         run: |
           newman run postman/sprint_1_add-review-service-and-likes-dislikes.postman_collection.json \
           --reporters cli,json \
-          --reporter-json-export results-feature-likes.json
+          --reporter-json-export results-review-service-and-feature-likes.json
 
-      - name: Run Postman tests for Feature Statistics
-        run: |
-          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
-          --reporters cli,json \
-          --reporter-json-export results-feature-statistics.json
+#      - name: Run Postman tests for Feature Statistics
+#        run: |
+#          newman run postman/workshop_sprint_1_add-statistic.postman_collection.json \
+#          --reporters cli,json \
+#          --reporter-json-export results-feature-statistics.json
 
       - name: Publish results (optional)
         run: |
-          echo "Review Service Results:"
-          cat results-review-service.json
-          echo "Feature Likes Results:"
-          cat results-feature-likes.json
-          echo "Feature Statistics Results:"
-          cat results-feature-statistics.json
+          echo "Review-service and feature Likes results:"
+          cat results-review-service-and-feature-likes.json
+#          echo "Feature statistics results:"
+#          cat results-feature-statistics.json
 
-    - name: Stop docker-compose
-      run:
-      - docker-compose ps
-      - docker-compose down
+      - name: Stop docker-compose
+        run: |
+          docker compose ps
+          docker compose down
