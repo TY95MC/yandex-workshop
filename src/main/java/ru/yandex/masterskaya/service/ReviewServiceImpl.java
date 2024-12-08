@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.yandex.masterskaya.client.EventClient;
+import ru.yandex.masterskaya.client.RegistrationClient;
 import ru.yandex.masterskaya.exception.ConflictException;
 import ru.yandex.masterskaya.exception.EntityNotFoundException;
 import ru.yandex.masterskaya.model.Review;
@@ -13,10 +15,13 @@ import ru.yandex.masterskaya.model.dto.CreateReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewDto;
 import ru.yandex.masterskaya.model.dto.ReviewFullDto;
 import ru.yandex.masterskaya.model.dto.UpdateReviewDto;
+import ru.yandex.masterskaya.model.dto.client.EventDto;
+import ru.yandex.masterskaya.model.dto.client.RegistrationDto;
 import ru.yandex.masterskaya.model.mapper.ReviewMapper;
 import ru.yandex.masterskaya.repository.ReviewRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +29,26 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
+    private final EventClient eventClient;
+    private final RegistrationClient registrationClient;
 
     @Override
     public ReviewFullDto createReview(CreateReviewDto dto) {
+        RegistrationDto registration = registrationClient.getStatusByEventIdAndUserId(dto.getEventId(), dto.getAuthorId());
+        if (!registration.getStatus().equals("APPROVED")) {
+            throw new ConflictException("Оставлять отзыв могут только лица участвовавшие в мероприятии");
+        }
+
+        Optional<EventDto> event = eventClient.getEventById(dto.getEventId());
+
+        if (event.isEmpty()) {
+            throw new EntityNotFoundException("Ивента с id=" + dto.getEventId() + " не существует");
+        } else {
+            if (event.get().getOwnerId().equals(dto.getAuthorId())) {
+                throw new ConflictException("Создатель мероприятия не может оставлять отзывы");
+            }
+        }
+
         Review rev = reviewMapper.toReview(dto);
         rev.setCreatedDateTime(LocalDateTime.now());
         rev = reviewRepository.save(rev);

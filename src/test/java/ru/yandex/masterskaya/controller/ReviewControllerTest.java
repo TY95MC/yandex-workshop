@@ -13,6 +13,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.masterskaya.exception.EntityNotFoundException;
 import ru.yandex.masterskaya.model.dto.CreateReviewDto;
@@ -38,6 +39,7 @@ import static ru.yandex.masterskaya.constants.Constants.X_REVIEW_USER_ID;
 
 @WebMvcTest(controllers = ReviewController.class)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@ActiveProfiles("test")
 class ReviewControllerTest {
 
     private final MockMvc mockMvc;
