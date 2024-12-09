@@ -98,9 +98,8 @@ public class LikeServiceImplTest {
 
         ReviewFullDto reviewFullDto = reviewService.createReview(createReviewDto);
 
-        ConflictException exception = assertThrows(ConflictException.class, () -> {
-            likeService.addLike(reviewFullDto.getId(), userId);
-        });
+        ConflictException exception = assertThrows(ConflictException.class,
+                () -> likeService.addLike(reviewFullDto.getId(), userId));
 
         assertEquals("Автор отзыва не может ставить себе лайк", exception.getMessage());
     }
