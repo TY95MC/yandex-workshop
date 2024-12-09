@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +68,7 @@ public class LikeServiceImplTest {
     void shouldAddLikeToReviewSuccess() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -87,7 +88,7 @@ public class LikeServiceImplTest {
     void shouldAddLikeToReviewNotSuccessSamePerson() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -110,7 +111,7 @@ public class LikeServiceImplTest {
     void shouldRemoveLikeFromReview() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -132,7 +133,7 @@ public class LikeServiceImplTest {
     void shouldAddDisLikeToReview() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -150,7 +151,7 @@ public class LikeServiceImplTest {
     void shouldRemoveDisLikeFromReview() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))

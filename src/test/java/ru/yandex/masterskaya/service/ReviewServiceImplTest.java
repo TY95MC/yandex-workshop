@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.masterskaya.client.EventClient;
@@ -84,7 +85,7 @@ class ReviewServiceImplTest {
     void shouldCreateReviewSuccessfully() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -98,7 +99,7 @@ class ReviewServiceImplTest {
     void shouldFailCreateReview() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -114,7 +115,7 @@ class ReviewServiceImplTest {
 
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -131,7 +132,7 @@ class ReviewServiceImplTest {
     void shouldUpdateReviewSuccessfully() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -148,7 +149,7 @@ class ReviewServiceImplTest {
     void shouldFailUpdateReview() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -169,7 +170,7 @@ class ReviewServiceImplTest {
     void shouldGetReviewSuccessfully() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))
@@ -205,7 +206,7 @@ class ReviewServiceImplTest {
     void shouldDeleteReviewSuccessfully() {
         Mockito
                 .when(eventClient.getEventById(anyLong()))
-                .thenReturn(Optional.of(event));
+                .thenReturn(ResponseEntity.of(Optional.of(event)));
 
         Mockito
                 .when(registrationClient.getStatusByEventIdAndUserId(anyLong(), anyLong()))

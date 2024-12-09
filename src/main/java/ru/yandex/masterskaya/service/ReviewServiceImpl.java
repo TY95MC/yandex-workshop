@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.yandex.masterskaya.client.EventClient;
 import ru.yandex.masterskaya.client.RegistrationClient;
@@ -21,7 +22,7 @@ import ru.yandex.masterskaya.model.mapper.ReviewMapper;
 import ru.yandex.masterskaya.repository.ReviewRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -39,14 +40,10 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ConflictException("Оставлять отзыв могут только лица участвовавшие в мероприятии");
         }
 
-        Optional<EventDto> event = eventClient.getEventById(dto.getEventId());
+        ResponseEntity<EventDto> event = eventClient.getEventById(dto.getEventId());
 
-        if (event.isEmpty()) {
-            throw new EntityNotFoundException("Ивента с id=" + dto.getEventId() + " не существует");
-        } else {
-            if (event.get().getOwnerId().equals(dto.getAuthorId())) {
-                throw new ConflictException("Создатель мероприятия не может оставлять отзывы");
-            }
+        if (Objects.requireNonNull(event.getBody()).getOwnerId().equals(dto.getAuthorId())) {
+            throw new ConflictException("Создатель мероприятия не может оставлять отзывы");
         }
 
         Review rev = reviewMapper.toReview(dto);
